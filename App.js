@@ -15,8 +15,15 @@ import { Fontisto } from '@expo/vector-icons';
 const { width: SCREEN_WIDTH } = Dimensions.get("window"); // 화면의 너비를 미리 계산
 const API_KEY = "3137cab544d41940bdd04f4e1059966c"; // openweather API키
 const icons = {
-  "Clouds": "cloudy"
-}
+  Clouds: "cloudy",
+  Clear: "day-sunny",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Rain: "rains",
+  Drizzle: "rain",
+  Thunderstrom: "lightning",
+};
+
 export default function App() {
   const [city, setCity] = useState("Loading..."); // 도시명
   const [days, setDays] = useState([]); // 날짜별 날씨 정보
@@ -68,18 +75,24 @@ export default function App() {
       >
         {days.length === 0 ? ( // 날씨 정보를 아직 받아오지 않았다면
             // 로딩 애니메이션
-            <View style={styles.day}>  
+            // 이미 정의된 스타일과 커스텀 스타일을 결합함
+            <View style={{ ...styles.day, alignItems: "center" }}>  
               <ActivityIndicator color="white" size="large" style={{marginTop: 10}}/> 
             </View>
           ) : ( // 날씨 정보를 받아왔다면
             // 날씨 정보
             days.map((day, index) => 
               <View key={index} style={styles.day}>
-                <View>
+                <View style={{ 
+                  flexDirection: "row",
+                  alignItems: "center",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}>
                   <Text style={styles.temp}>
                     {parseFloat(day.main.temp).toFixed(1)}
                   </Text> 
-                  <Text></Text>
+                  <Fontisto name={icons[day.weather[0].main]} size={68} color="white" />
                 </View>
                 <View>
                   <Text style={styles.description}>{day.weather[0].main}</Text>
@@ -110,25 +123,34 @@ const styles = StyleSheet.create({
   cityName: {
     fontSize: 68,
     fontWeight: "500",
+    color: "white",
   },
-  
+
   // 날짜 정보
   day: {
     width: SCREEN_WIDTH,
-    alignItems: "center",
+    alignItems: "flex-start",
+    paddingHorizontal: 20,
   },
   // 온도
   temp: {
     marginTop: 50,
-    fontSize: 178,
+    fontWeight: "600",
+    fontSize: 100,
+    color: "white",
   },
   // 간단 설명
   description: {
-    marginTop: -30,
-    fontSize: 60,
+    marginTop: -10,
+    fontSize: 30,
+    color: "white",
+    fontWeight: "500", 
   },
   // 상세 설명
   tinyText: {
-    fontSize: 20,
+    marginTop: -5,
+    fontSize: 25,
+    color: "white",
+    fontWeight: "500", 
   }
 })
