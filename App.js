@@ -9,11 +9,14 @@ import {
   ScrollView, // 스크롤 가능한 <div>
   ActivityIndicator, // 로딩 애니메이션
 } from 'react-native';
+import { Fontisto } from '@expo/vector-icons';
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window"); // 화면의 너비를 미리 계산
 const API_KEY = "3137cab544d41940bdd04f4e1059966c"; // openweather API키
-
+const icons = {
+  "Clouds": "cloudy"
+}
 export default function App() {
   const [city, setCity] = useState("Loading..."); // 도시명
   const [days, setDays] = useState([]); // 날짜별 날씨 정보
@@ -72,9 +75,16 @@ export default function App() {
             // 날씨 정보
             days.map((day, index) => 
               <View key={index} style={styles.day}>
-                <Text style={styles.temp}>{parseFloat(day.main.temp).toFixed(1)}</Text> {/* 온도 */}
-                <Text style={styles.description}>{day.weather[0].main}</Text> {/* 간단 설명 */}
-                <Text style={styles.tinyText}>{day.weather[0].description}</Text> {/* 상세 설명 */}
+                <View>
+                  <Text style={styles.temp}>
+                    {parseFloat(day.main.temp).toFixed(1)}
+                  </Text> 
+                  <Text></Text>
+                </View>
+                <View>
+                  <Text style={styles.description}>{day.weather[0].main}</Text>
+                  <Text style={styles.tinyText}>{day.weather[0].description}</Text>
+                </View>
               </View>
             )
           )
